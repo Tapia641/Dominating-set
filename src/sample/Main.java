@@ -1,5 +1,6 @@
 package sample;
 
+import Clases.Grafo;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,10 +15,14 @@ public class Main extends Application {
         primaryStage.setTitle("Hello World");
         primaryStage.setScene(new Scene(root, 300, 275));
         primaryStage.show();
+
+
+        System.out.println();
     }
 
-
+    /*MINIMUM CONNECTED DOMINATING SET*/
     public static void main(String[] args) {
+        Grafo G = new Grafo(5,0.5);
         launch(args);
     }
 }

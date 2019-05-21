@@ -9,6 +9,7 @@ public class Grafo {
     private Double Probabilidad;
     private Integer NumeroVertices;
     private Vector<Vector<Integer>> Grafo;
+    private Vector<Arista> GrafoPesos;
 
     /*CONSTRUCTOR*/
     public Grafo() {
@@ -19,6 +20,7 @@ public class Grafo {
         this.NumeroVertices = NumeroVertices;
         this.Probabilidad = Probabilidad;
         Grafo = new Vector<>();
+        GrafoPesos = new Vector<>();
         InicializarGrafo();
     }
 
@@ -51,6 +53,18 @@ public class Grafo {
             }
         }
 
+        /*AGREGAMOS PESOS A LAS ARISTAS DE FORMA ALEATORIA*/
+        Arista A;
+        for (Vector<Integer> V: this.Grafo){
+            for (int i = 1; i < V.size(); i++) {
+                A = new Arista();
+                A.setOrigen(V.get(0));
+                A.setDestino(V.get(i));
+                A.setPeso(Math.round(new Random().nextDouble() * 100d) / 100d);
+                this.GrafoPesos.add(A);
+            }
+        }
+
         /*IMPRIMIMOS PARA VER LOS RESULTADOS*/
         ImprimeGrafo();
 
@@ -58,9 +72,33 @@ public class Grafo {
 
     /*IMPRIMIMOS*/
     public void ImprimeGrafo(){
+
+        /*GRAFO SIN PESOS*/
+        System.out.println("\nGrafo:");
         for (Vector<Integer> V: this.Grafo){
             System.out.println(V);
         }
+
+        /*GRAFO CON PESOS*/
+        System.out.println("\nGrafo con pesos:");
+        for (Arista A : this.GrafoPesos){
+            System.out.println(A.getOrigen() + " -> " + A.getDestino() + " = " + A.getPeso());
+        }
+
+    }
+
+    public void ResolverGreedy(){
+
+    }
+
+
+    public void ResolverLinealRedondeo(){
+
+    }
+
+
+    public void ResolverEntera(){
+
     }
 
 }
