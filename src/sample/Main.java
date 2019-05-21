@@ -1,6 +1,7 @@
 package sample;
 
 import Clases.Grafo;
+import Clases.Greedy;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -23,6 +24,8 @@ public class Main extends Application {
     /*MINIMUM CONNECTED DOMINATING SET*/
     public static void main(String[] args) {
         Grafo G = new Grafo(5,0.5);
+        Greedy Gre = new Greedy(G.getPesos(),G.getGrafo());
+        Gre.Iniciar();
         launch(args);
     }
 }
