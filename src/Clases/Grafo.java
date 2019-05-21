@@ -2,6 +2,10 @@ package Clases;
 
 /*CLASE PARA GENERAR UN GRAFO MEDIANTE EL MODELO DE GILERT ;)*/
 
+import javafx.util.Pair;
+
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Random;
 import java.util.Vector;
 
@@ -9,7 +13,7 @@ public class Grafo {
     private Double Probabilidad;
     private Integer NumeroVertices;
     private Vector<Vector<Integer>> Grafo;
-    private Vector<Arista> GrafoPesos;
+    private Vector<Pair<Integer, Double>> GrafoPesos;
 
     /*CONSTRUCTOR*/
     public Grafo() {
@@ -25,7 +29,7 @@ public class Grafo {
     }
 
     /*MODELO DE GILBERT*/
-    public void InicializarGrafo(){
+    public void InicializarGrafo() {
 
         /*ESTABLECEMOS EL NUMERO DE VERTICES*/
         for (int i = 0; i < this.NumeroVertices; i++) {
@@ -40,10 +44,10 @@ public class Grafo {
             for (int j = 0; j < this.Grafo.size(); j++) {
 
                 /*CONDICIÓN DE PROBABILIDAD*/
-                if (i!=j && RN.nextDouble() <= this.Probabilidad){
+                if (i != j && RN.nextDouble() <= this.Probabilidad) {
 
                     /*SI NO EXISTE CONEXION ENTE I,J*/
-                    if (!Grafo.get(i).contains(j)){
+                    if (!Grafo.get(i).contains(j)) {
 
                         /*LOS CONECTAMOS*/
                         this.Grafo.get(i).add(j);
@@ -53,16 +57,9 @@ public class Grafo {
             }
         }
 
-        /*AGREGAMOS PESOS A LAS ARISTAS DE FORMA ALEATORIA*/
-        Arista A;
-        for (Vector<Integer> V: this.Grafo){
-            for (int i = 1; i < V.size(); i++) {
-                A = new Arista();
-                A.setOrigen(V.get(0));
-                A.setDestino(V.get(i));
-                A.setPeso(Math.round(new Random().nextDouble() * 100d) / 100d);
-                this.GrafoPesos.add(A);
-            }
+        /*AGREGAMOS PESOS A LOS NODOS DE FORMA ALEATORIA*/
+        for (Vector<Integer> V : this.Grafo) {
+            GrafoPesos.add(new Pair(V.get(0),Math.round(new Random().nextDouble() * 100d) / 100d));
         }
 
         /*IMPRIMIMOS PARA VER LOS RESULTADOS*/
@@ -71,33 +68,38 @@ public class Grafo {
     }
 
     /*IMPRIMIMOS*/
-    public void ImprimeGrafo(){
+    public void ImprimeGrafo() {
 
         /*GRAFO SIN PESOS*/
         System.out.println("\nGrafo:");
-        for (Vector<Integer> V: this.Grafo){
+        for (Vector<Integer> V : this.Grafo) {
             System.out.println(V);
         }
 
         /*GRAFO CON PESOS*/
         System.out.println("\nGrafo con pesos:");
-        for (Arista A : this.GrafoPesos){
-            System.out.println(A.getOrigen() + " -> " + A.getDestino() + " = " + A.getPeso());
+        int i = 0;
+        for (Pair<Integer,Double> P: this.GrafoPesos) {
+            System.out.println(GrafoPesos.get(i++));
         }
 
-    }
-
-    public void ResolverGreedy(){
 
     }
 
+    public void Greedy() {
+        /*CONJUNTO DOMINANTE DE PESO MÍNIMO*/
+        //CREAMOS UN GRAFO BIPARTITO
+        HashSet<Integer> A = new HashSet<>(), B = new HashSet<>();
+        
+    }
 
-    public void ResolverLinealRedondeo(){
+
+    public void ResolverLinealRedondeo() {
 
     }
 
 
-    public void ResolverEntera(){
+    public void ResolverEntera() {
 
     }
 

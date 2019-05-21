@@ -6,6 +6,7 @@ public class Arista {
     private Integer Origen;
     private Integer Destino;
     private Double Peso;
+    private boolean Color; //0 negro,1  para Greedy
 
     /*CONSTRUCTOR*/
     public Arista() {
@@ -41,5 +42,13 @@ public class Arista {
 
     public void setPeso(Double peso) {
         Peso = peso;
+    }
+
+    public boolean isColor() {
+        return Color;
+    }
+
+    public void setColor(boolean color) {
+        Color = color;
     }
 }
