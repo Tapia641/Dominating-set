@@ -8,10 +8,21 @@ import java.util.Vector;
 public class Greedy {
     private Vector<Pair<Integer, Double>> Pesos;
     private Vector<Vector<Integer>> Grafo;
+    private Vector<Integer> NodosSolucion;
+    private Double Total;
+
+    public Double getTotal() {
+        return Total;
+    }
+
+    public void setTotal(Double total) {
+        Total = total;
+    }
 
     public Greedy(Vector<Pair<Integer, Double>> pesos, Vector<Vector<Integer>> grafo) {
         Pesos = pesos;
         Grafo = grafo;
+        NodosSolucion = new Vector<>();
     }
 
     public Greedy() {
@@ -22,7 +33,6 @@ public class Greedy {
 
         /*CONJUNTO DOMINANTE DE PESO MÍNIMO*/
         HashSet<Integer> Original = new HashSet<>(), Solucion = new HashSet<>();
-        Vector<Integer> NodosSolucion = new Vector<>();
         Vector<Vector<Integer>> Copia = new Vector<>();
         Copia.addAll(this.Grafo);
 
@@ -63,6 +73,7 @@ public class Greedy {
 
         }
 
+        this.Total = CostoTotal;
         System.err.println("Solucion: " + NodosSolucion + " Total: " + CostoTotal);
     }
 
@@ -80,5 +91,13 @@ public class Greedy {
 
     public void setGrafo(Vector<Vector<Integer>> grafo) {
         Grafo = grafo;
+    }
+
+    public Vector<Integer> getNodosSolucion() {
+        return NodosSolucion;
+    }
+
+    public void setNodosSolucion(Vector<Integer> nodosSolucion) {
+        NodosSolucion = nodosSolucion;
     }
 }

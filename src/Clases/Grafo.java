@@ -4,6 +4,8 @@ package Clases;
 
 import javafx.util.Pair;
 
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.util.*;
 
 public class Grafo {
@@ -124,5 +126,40 @@ public class Grafo {
 
     public void setPesos(Vector<Pair<Integer, Double>> pesos) {
         Pesos = pesos;
+    }
+
+    public void ExportarArchivo(Vector<Integer> Solucion, double total){
+        FileWriter fichero = null;
+        PrintWriter pw = null;
+        try
+        {
+            fichero = new FileWriter("C:\\Users\\Tapia\\Desktop\\Python\\PL.txt");
+            pw = new PrintWriter(fichero);
+
+            //Guardamos los nodos dominantes
+            for (int i: Solucion){
+                pw.print(i + " ");
+            }
+            pw.println(total);
+
+            for (Vector<Integer> V: Grafo){
+                for (int i: V){
+                    pw.print(i + " ");
+                }
+                pw.println(Pesos.get(V.get(0)).getValue());
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                // Nuevamente aprovechamos el finally para
+                // asegurarnos que se cierra el fichero.
+                if (null != fichero)
+                    fichero.close();
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
+        }
     }
 }
