@@ -13,11 +13,9 @@ public class ProgramacionLineal {
         String s = null;
 
         try {
-            //File archivo = new File("Python/PL.py");
-            //System.out.println(archivo.getAbsolutePath());
-            String ruta = "C:\\Users\\Tapia\\Desktop\\Python\\PL.py";
-            String parametros = "M";
-            Process p = Runtime.getRuntime().exec("python " + ruta + " " + parametros);
+            File out = new File(new File("src/Python/PL.py").getAbsolutePath());
+            System.out.println("python " + out.getAbsolutePath());
+            Process p = Runtime.getRuntime().exec("python " + out.getAbsolutePath());
 
             BufferedReader stdInput = new BufferedReader(new
                     InputStreamReader(p.getInputStream()));
