@@ -24,8 +24,14 @@ public class ProgramacionLineal {
                     InputStreamReader(p.getErrorStream()));
 
             System.out.println("Salida:\n");
+            String total = "";
             while ((s = stdInput.readLine()) != null) {
                 System.out.println(s);
+                total += s;
+            }
+
+            if (total.equals("NO")){
+                System.err.println("Simplex perdió factibilidad");
             }
 
             System.out.println("Errores:\n");

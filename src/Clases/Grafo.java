@@ -4,6 +4,7 @@ package Clases;
 
 import javafx.util.Pair;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.*;
@@ -46,11 +47,11 @@ public class Grafo {
                 if (i != j && RN.nextDouble() <= this.Probabilidad) {
 
                     /*SI NO EXISTE CONEXION ENTE I,J*/
-                    if (!Grafo.get(i).contains(j) && !Grafo.get(j).contains(i)) {
+                    if (!Grafo.get(i).contains(j)) {
 
                         /*LOS CONECTAMOS*/
                         this.Grafo.get(i).add(j);
-                        this.Grafo.get(j).add(i);
+                        //this.Grafo.get(j).add(i);
 
                     }
                 }
@@ -133,7 +134,9 @@ public class Grafo {
         PrintWriter pw = null;
         try
         {
-            fichero = new FileWriter("C:\\Users\\Tapia\\Desktop\\Python\\PL.txt");
+            File archivo = new File("");
+            System.out.println(archivo.getAbsolutePath());
+            fichero = new FileWriter(archivo.getAbsolutePath() + "\\src\\Python\\PL.txt");
             pw = new PrintWriter(fichero);
 
             //Guardamos los nodos dominantes

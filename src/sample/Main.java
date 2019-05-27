@@ -17,14 +17,12 @@ public class Main extends Application {
         primaryStage.setTitle("Dominating Set");
         primaryStage.setScene(new Scene(root, 300, 275));
         primaryStage.show();
-
-
         System.out.println();
     }
 
     /*MINIMUM CONNECTED DOMINATING SET*/
     public static void main(String[] args) {
-        Grafo G = new Grafo(5,0.5);
+        Grafo G = new Grafo(100,0.5);
         Greedy Gre = new Greedy(G.getPesos(),G.getGrafo());
         Gre.Iniciar();
         G.ExportarArchivo(Gre.getNodosSolucion(),Gre.getTotal());
