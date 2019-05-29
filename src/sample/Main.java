@@ -1,5 +1,6 @@
 package sample;
 
+import Clases.Draw;
 import Clases.Grafo;
 import Clases.Greedy;
 import Clases.ProgramacionLineal;
@@ -22,7 +23,9 @@ public class Main extends Application {
 
     /*MINIMUM CONNECTED DOMINATING SET*/
     public static void main(String[] args) {
-        Grafo G = new Grafo(100,0.5);
+        Grafo G = new Grafo(200,0.5);
+        //Draw D  = new Draw();
+        //D.Dibuja(G.DibujaGrafo());
         Greedy Gre = new Greedy(G.getPesos(),G.getGrafo());
         Gre.Iniciar();
         G.ExportarArchivo(Gre.getNodosSolucion(),Gre.getTotal());

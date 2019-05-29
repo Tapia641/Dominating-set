@@ -47,7 +47,7 @@ public class Grafo {
                 if (i != j && RN.nextDouble() <= this.Probabilidad) {
 
                     /*SI NO EXISTE CONEXION ENTE I,J*/
-                    if (!Grafo.get(i).contains(j)) {
+                    if (!Grafo.get(i).contains(j) && !Grafo.get(j).contains(i)) {
 
                         /*LOS CONECTAMOS*/
                         this.Grafo.get(i).add(j);
@@ -164,5 +164,32 @@ public class Grafo {
                 e2.printStackTrace();
             }
         }
+    }
+
+
+    public String DibujaGrafo() {
+        String cadena = "";
+
+        /* FORMATO DEL DIBUJO */
+        cadena += "node [shape=circle];\n" +
+                "node [style=filled];\n" +
+                "node [fillcolor=\"#EEEEEE\"];\n" +
+                "node [color=\"#EEEEEE\"];\n" +
+                "edge [color=\"#31CEF0\"];\n";
+
+        /* ESTRUCTURA PARA .DOT */
+        //"EstadoOrigen -> EstadoDestino [label=\"Transicion\"];\n"
+
+        /* IMPRIMIMOS LOS ESTADOS DE ACEPTACIÓN ACCEDIENDO AL HASHSET Y SACANDO CADA ESTADO */
+        for (Vector<Integer> V : Grafo){
+            for (int i = 1 ; i < V.size(); i++){
+                cadena += (V.get(0) + " -> " + V.get(i) +";\n");
+            }
+        }
+
+        /* FIN DE FORMATO*/
+        cadena += "rankdir=LR;\n";
+
+        return cadena;
     }
 }
