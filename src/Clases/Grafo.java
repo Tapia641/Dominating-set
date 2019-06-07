@@ -12,7 +12,7 @@ import java.util.*;
 public class Grafo {
     private Double Probabilidad;
     private Integer NumeroVertices;
-    private Vector<Vector<Integer>> Grafo;
+    private Vector<Vector<Integer>> Grafo, GrafoTabla;
     private Vector<Pair<Integer, Double>> Pesos;
 
     /*CONSTRUCTOR*/
@@ -25,6 +25,7 @@ public class Grafo {
         this.Probabilidad = Probabilidad;
         Grafo = new Vector<>();
         Pesos = new Vector<>();
+        GrafoTabla = new Vector<>();
         InicializarGrafo();
     }
 
@@ -45,7 +46,6 @@ public class Grafo {
 
                 /*CONDICIÓN DE PROBABILIDAD*/
                 if (i != j && RN.nextDouble() <= this.Probabilidad) {
-
                     /*SI NO EXISTE CONEXION ENTE I,J*/
                     if (!Grafo.get(i).contains(j) && !Grafo.get(j).contains(i)) {
 
@@ -58,6 +58,7 @@ public class Grafo {
             }
         }
 
+
         /*AGREGAMOS PESOS A LOS NODOS DE FORMA ALEATORIA*/
         for (Vector<Integer> V : this.Grafo) {
             Pesos.add(new Pair(V.get(0), Math.round(new Random().nextDouble() * 100d) / 100d));
@@ -66,6 +67,35 @@ public class Grafo {
         /*IMPRIMIMOS PARA VER LOS RESULTADOS*/
         ImprimeGrafo();
 
+    }
+
+    public Vector<Vector<Integer>> getGrafoTabla(){
+        Vector<Integer> Aux1 = new Vector<>();
+        Aux1.add(0);
+
+        for (int i = 0; i < NumeroVertices; i++) {
+            Aux1.add(i);
+        }
+        GrafoTabla.add(Aux1);
+
+        for (int i = 0; i < NumeroVertices; i++) {
+            Vector<Integer> Aux = new Vector<>();
+            Aux.add(i);
+            for (int j = 0; j < NumeroVertices; j++) {
+                if (Grafo.get(i).contains(j) && i!=j){
+                    Aux.add(1);
+                }else{
+                    Aux.add(-1);
+                }
+            }
+            GrafoTabla.add(Aux);
+        }
+
+        for (Vector<Integer> i : GrafoTabla){
+            System.err.println(i);
+        }
+
+        return GrafoTabla;
     }
 
     /*IMPRIMIMOS*/

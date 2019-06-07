@@ -1,35 +1,152 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.TextField?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
 
-
-<GridPane alignment="center" hgap="10" prefHeight="693.0" prefWidth="1107.0" vgap="10" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="sample.Controller">
+<VBox prefHeight="845.0" prefWidth="1293.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <children>
-      <Pane prefHeight="693.0" prefWidth="1145.0">
+      <Pane prefHeight="114.0" prefWidth="1293.0" styleClass="backgroundPaneSuperior" stylesheets="@MyStyle.css">
          <children>
-            <AnchorPane prefHeight="693.0" prefWidth="1101.0">
-               <children>
-                  <Pane layoutX="-6.0" layoutY="-9.0" prefHeight="183.0" prefWidth="1113.0" style="-fx-background-color: dodgerblue;">
-                     <children>
-                        <Button layoutX="257.0" layoutY="92.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="173.0" text="Generar" />
-                        <TextField layoutX="463.0" layoutY="92.0" />
-                        <TextField layoutX="664.0" layoutY="92.0" />
-                     </children>
-                  </Pane>
-                  <ScrollPane layoutY="174.0" prefHeight="523.0" prefWidth="1107.0">
-                     <content>
-                        <ImageView fitHeight="520.0" fitWidth="1105.0" pickOnBounds="true" preserveRatio="true" />
-                     </content>
-                  </ScrollPane>
-               </children>
-            </AnchorPane>
+            <ImageView fitHeight="85.0" fitWidth="167.0" layoutX="-4.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@ESCOM.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="134.0" layoutY="28.0" styleClass="title" stylesheets="@bootstrap2.css" text="Design and analysis of algorithms" textFill="WHITE">
+               <font>
+                  <Font name="Arial Rounded MT Bold" size="36.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
+      <MenuBar prefHeight="0.0" prefWidth="1293.0" VBox.vgrow="NEVER">
+         <menus>
+            <Menu mnemonicParsing="false" text="Archivo">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Nuevo" />
+                  <MenuItem mnemonicParsing="false" text="Importar Autómata" />
+                  <MenuItem mnemonicParsing="false" text="Exportar Autómata" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" text="Importar Gramática" />
+                  <MenuItem mnemonicParsing="false" text="Exportar Gramática" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" text="Salir" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Opciones">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Opción 1" />
+                  <MenuItem mnemonicParsing="false" text="Opción 2" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" text="Mostrar Todo" />
+                  <MenuItem mnemonicParsing="false" text="Lista de autómatas" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Ayuda">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Acerca del proyecto" />
+               </items>
+            </Menu>
+         </menus>
+      </MenuBar>
+      <SplitPane dividerPositions="0.16731216111541442, 0.6142525174283501" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+         <items>
+            <AnchorPane prefWidth="314.0" style="-fx-background-color: ffff;">
+               <children>
+                  <Pane layoutY="-49.0" prefHeight="798.0" prefWidth="328.0" AnchorPane.bottomAnchor="-49.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-49.0">
+                     <children>
+                        <Label alignment="CENTER" layoutX="28.0" layoutY="11.0" minWidth="60.0" prefWidth="-1.0" style="&#10;" text="AFN" textAlignment="CENTER" textFill="#757575" wrapText="false">
+                           <font>
+                              <Font size="18.0" fx:id="x112" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER" layoutX="20.0" layoutY="80.0" minWidth="60.0" prefWidth="-1.0" style="&#10;" text="Grafo" textAlignment="CENTER" textFill="#757575" wrapText="false">
+                           <font>
+                              <Font size="18.0" fx:id="x111" />
+                           </font>
+                        </Label>
+                        <JFXTextField fx:id="CadenaProbabilidad" layoutX="18.0" layoutY="150.0" prefHeight="31.0" prefWidth="177.0" promptText="Probabilidad" stylesheets="@bootstrap2.css" />
+                        <JFXButton fx:id="JFXButtonGenerar" buttonType="RAISED" layoutX="16.0" layoutY="196.0" onMouseClicked="#onMouseclickedGenerargrafo" prefHeight="31.0" prefWidth="177.0" styleClass="success" stylesheets="@bootstrap2.css" text="Generar" textFill="WHITE" />
+                        <JFXTextField fx:id="CadenaNumeroNodos" layoutX="18.0" layoutY="107.0" prefHeight="31.0" prefWidth="177.0" promptText="Número de nodos" stylesheets="@bootstrap2.css" />
+                        <JFXButton fx:id="JFXButtonDibujar" buttonType="RAISED" layoutX="16.0" layoutY="239.0" onMouseClicked="#onMouseclickedDibujarGrafo" prefHeight="31.0" prefWidth="177.0" styleClass="danger" stylesheets="@bootstrap2.css" text="Dibujar Grafo" textFill="WHITE" />
+                     </children>
+                  </Pane>
+                  <JFXTextField fx:id="CadenaSintactico" editable="false" layoutX="24.0" layoutY="626.0" prefHeight="31.0" prefWidth="176.0" promptText="Ingresa una cadena" visible="false" />
+               </children>
+            </AnchorPane>
+            <Pane prefHeight="200.0" prefWidth="200.0" styleClass="backgroundPaneCentro" stylesheets="@MyStyle.css">
+               <children>
+                  <ImageView id="ImageViewGrafo" fx:id="ImageViewGrafo" fitHeight="657.0" fitWidth="569.0" pickOnBounds="true" smooth="false" style="-fx-background-color: #ffff;" />
+                  <StackPane fx:id="mySP" layoutX="200.0" layoutY="20.0" prefHeight="27.0" prefWidth="22.0" stylesheets="@bootstrap2.css">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </StackPane>
+               </children>
+            </Pane>
+            <AnchorPane prefHeight="699.0" prefWidth="776.0" style="-fx-background-color: ffff;">
+               <children>
+                  <Label alignment="CENTER" layoutX="74.0" layoutY="14.0" style="&#10;" text="Tabla " textAlignment="CENTER" textFill="#757575" wrapText="false">
+                     <font>
+                        <Font size="18.0" fx:id="x1" />
+                     </font>
+                  </Label>
+                  <JFXButton fx:id="JFXButtonGreedy" buttonType="RAISED" layoutX="164.0" layoutY="12.0" onMouseClicked="#onMouseclickedGreedy" prefHeight="32.0" prefWidth="144.0" styleClass="primary" stylesheets="@bootstrap2.css" text="Greedy" textFill="WHITE" />
+                  <JFXButton fx:id="JFXButtonProgramacionLineal" buttonType="RAISED" layoutX="351.0" layoutY="12.0" onMouseClicked="#onMouseclickedProgramacionLineal" prefHeight="32.0" prefWidth="176.0" styleClass="primary" stylesheets="@bootstrap2.css" text="Programación Linea" textFill="WHITE" />
+                  <JFXButton fx:id="JFXButtonProgramacionEntera" buttonType="RAISED" layoutX="559.0" layoutY="12.0" prefHeight="32.0" prefWidth="200.0" styleClass="primary" stylesheets="@bootstrap2.css" text="Programción Entera" textFill="WHITE" />
+                  <Accordion layoutY="50.0" stylesheets="@bootstrap2.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
+                     <panes>
+                        <TitledPane prefHeight="100.0" prefWidth="868.0" styleClass="primary" stylesheets="@bootstrap2.css" text="Tabla de adyacencia">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <TableView fx:id="MiTabla" prefHeight="200.0" prefWidth="200.0" stylesheets="@bootstrap2.css" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                 </children>
+                              </AnchorPane>
+                           </content>
+                        </TitledPane>
+                     </panes>
+                  </Accordion>
+                  <JFXButton fx:id="JFXButtonResolver" buttonType="RAISED" layoutX="832.0" layoutY="12.0" prefHeight="31.0" prefWidth="177.0" styleClass="success" stylesheets="@bootstrap2.css" text="Resolver" textFill="WHITE" />
+               </children>
+            </AnchorPane>
+         </items>
+      </SplitPane>
+      <HBox id="HBox" alignment="CENTER_LEFT" spacing="5.0" VBox.vgrow="NEVER">
+         <children>
+            <Label maxHeight="1.7976931348623157E308" maxWidth="-1.0" text="Centro de investigación en computación" HBox.hgrow="ALWAYS">
+               <font>
+                  <Font size="11.0" fx:id="x3" />
+               </font>
+               <textFill>
+                  <Color blue="0.625" green="0.625" red="0.625" fx:id="x4" />
+               </textFill>
+            </Label>
+            <Pane prefHeight="-1.0" prefWidth="-1.0" HBox.hgrow="ALWAYS" />
+            <Label font="$x3" maxWidth="-1.0" text="Autores: Luis Enrique Hernández Tapia." textFill="$x4" HBox.hgrow="NEVER" />
+         </children>
+         <padding>
+            <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+         </padding>
+      </HBox>
    </children>
-</GridPane>
+</VBox>

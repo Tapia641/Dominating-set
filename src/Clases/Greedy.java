@@ -1,3 +1,6 @@
+/*AUTOR: HERNÁNDEZ TAPIA LUIS ENRIQUE ;D */
+
+
 package Clases;
 
 import javafx.util.Pair;

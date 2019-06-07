@@ -1,3 +1,6 @@
+/*AUTOR: HERNÁNDEZ TAPIA LUIS ENRIQUE ;D */
+
+
 package Clases;
 
 import java.io.BufferedReader;
@@ -5,6 +8,9 @@ import java.io.File;
 import java.io.InputStreamReader;
 
 public class ProgramacionLineal {
+
+    private String Cadena = "";
+
     public ProgramacionLineal() {
     }
 
@@ -34,6 +40,8 @@ public class ProgramacionLineal {
                 System.err.println("Simplex perdió factibilidad");
             }
 
+            Cadena = total;
+
             System.out.println("Errores:\n");
             while ((s = stdError.readLine()) != null) {
                 System.out.println(s);
@@ -43,4 +51,7 @@ public class ProgramacionLineal {
         }
     }
 
+    public String getCadena() {
+        return Cadena;
+    }
 }

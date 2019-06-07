@@ -1,3 +1,5 @@
+/*AUTOR: HERNÁNDEZ TAPIA LUIS ENRIQUE ;D */
+
 package sample;
 
 import Clases.Draw;
@@ -21,16 +23,7 @@ public class Main extends Application {
         System.out.println();
     }
 
-    /*MINIMUM CONNECTED DOMINATING SET*/
     public static void main(String[] args) {
-        Grafo G = new Grafo(200,0.5);
-        //Draw D  = new Draw();
-        //D.Dibuja(G.DibujaGrafo());
-        Greedy Gre = new Greedy(G.getPesos(),G.getGrafo());
-        Gre.Iniciar();
-        G.ExportarArchivo(Gre.getNodosSolucion(),Gre.getTotal());
-        ProgramacionLineal PL = new ProgramacionLineal();
-        PL.EjecutarPython();
         launch(args);
     }
 }
