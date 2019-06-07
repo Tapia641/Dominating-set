@@ -2,10 +2,7 @@
 
 package sample;
 
-import Clases.Draw;
-import Clases.Grafo;
-import Clases.Greedy;
-import Clases.ProgramacionLineal;
+import Clases.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -24,6 +21,8 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
+        //ProgramacionEntera PE = new ProgramacionEntera();
+        //PE.EjecutarPython();
         launch(args);
     }
 }

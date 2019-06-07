@@ -1,49 +1,96 @@
 #AUTOR: HERNÁNDEZ TAPIA LUIS ENRIQUE ;)
 
 """
-Los modelos de programación entera son una extensi´on de los modelos
+Los modelos de programación entera son una extensión de los modelos
 lineales en los que algunas variables toman valores enteros.
 """
+
 import sys
 import numpy as np
 from scipy.optimize import linprog
 import os
 import math
-import cvxopt
-from cvxopt import glpk
-from cvxopt import matrix
+import random
+import pulp as plp
+import pandas as pd
+#VARIABLES GLOBALES
+
+F = [] #Funcion objetivo
+#Sujeto A tipo matriz
+Lado_Izquierdo = []
+Lado_Derecho = []
 
 #VARIABLES GLOBALES
 Grafo = []
 Pesos = []
 NodosDominantes = []
 
+
 def PE_Ejemplo():
-    G = np.array([
-     [-1.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  1.,  0.,  0., 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0., -1.,  0.,  1.,  1.,  0.,  0., 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0., -1.,  0.,  1., -1.,  0.,  1., 1.,  0.,  0., -1.,  0.,  1.,  1.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.],
-     [ 0., -1.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  1.,  0., 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0., -1.,  1., -1.,  0.,  1., -1.,  0.,  1., -1.,  0.,  1.,  1.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0., 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.],
-     [ 0.,  0., -1.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  1., 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0., -1.,  1., 1.,  0.,  0.,  0.,  0.,  0., -1.,  0.,  1., -1.,  0.,  1.,  1.,  0.,  0.,  0.,  0.,  0., 0.,  0.,  0.,  0., -1.,  1.,  1.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.],
-     [ 0.,  0.,  0., -1.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0., 1.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0., 0., -1.,  1.,  1.,  0.,  0.,  0.,  0.,  0.,  0., -1.,  1.,  1.,  0.,  0.,  0., -1.,  1., -1.,  0.,  1.,  1.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.],
-     [ 0.,  0.,  0.,  0., -1.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0., 0.,  1.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0., 0.,  0.,  0.,  0., -1.,  1.,  1., -1.,  1.,  1.,  0.,  0.,  0., -1.,  1.,  1.,  0.,  0., 0., -1.,  1.,  1.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.],
-     [ 0.,  0.,  0.,  0.,  0., -1.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0., 0.,  0.,  1.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  1.,  1., -1.,  0.,  0.,  0., 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0., 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.],
-     [ 0.,  0.,  0.,  0.,  0.,  0., -1.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0., 0.,  0.,  0.,  1.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  1.,  1., -1., 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0., 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.],
-     [ 0.,  0.,  0.,  0.,  0.,  0.,  0., -1.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0., 0.,  0.,  0.,  0.,  1.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0., 1.,  1., -1.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0., 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.],
-     [ 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0., -1.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0., 0.,  0.,  0.,  0.,  0.,  1.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0., 0.,  0.,  0.,  1.,  1., -1.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0., 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.],
-     [ 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0., -1.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0., 0.,  0.,  0.,  0.,  0.,  0.,  1.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0., 0.,  0.,  0.,  0.,  0.,  0.,  1.,  1., -1.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0., 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.],
-     [ 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0., -1.,  0.,  0.,  0.,  0.,  0.,  0.,  0., 0.,  0.,  0.,  0.,  0.,  0.,  0.,  1.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0., 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  1.,  1., -1.,  0.,  0.,  0.,  0.,  0.,  0., 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.],
-     [ 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0., -1.,  0.,  0.,  0.,  0.,  0.,  0., 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  1.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0., 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  1.,  1., -1.,  0.,  0.,  0., 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.],
-     [ 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0., -1.,  0.,  0.,  0.,  0.,  0., 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  1.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0., 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  1.,  1., -1., 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.],
-     [ 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0., -1.,  0.,  0.,  0.,  0., 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  1.,  0.,  0.,  0.,  0.,  0.,  0.,  0., 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0., 1.,  1., -1.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.],
-     [ 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0., -1.,  0.,  0.,  0., 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  1.,  0.,  0.,  0.,  0.,  0.,  0., 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0., 0.,  0.,  0.,  1.,  1., -1.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.]])
+    n = len(F)
+    m = len(Lado_Derecho)
+    set_I = range(0, n-1)
+    set_J = range(0, m-1)
 
-    h = np.array([[ 0.], [ 0.], [ 0.], [ 0.], [ 0.], [ 0.], [ 0.], [ 0.], [ 0.], [ 0.], [ 0.], [ 0.], [ 0.], [ 0.], [ 0.], [ 1.], [ 1.], [ 1.], [ 1.], [ 1.], [ 1.], [ 1.], [ 1.], [ 1.], [ 1.], [ 1.], [ 1.], [ 1.], [ 1.], [ 1.], [ 0.], [ 0.], [ 1.], [ 1.], [ 0.], [ 1.], [ 1.], [ 0.], [ 1.], [ 1.], [ 0.], [ 1.], [ 1.], [ 0.], [ 1.], [ 1.], [ 0.], [ 1.], [ 1.], [ 0.], [ 1.], [ 1.], [ 0.], [ 1.], [ 1.], [ 0.], [ 1.], [ 1.], [ 0.], [ 1.], [ 1.], [ 0.], [ 0.], [ 0.], [ 0.], [ 0.], [ 0.], [ 0.], [ 0.], [ 0.]])
+    c = {(i,j): random.normalvariate(0,1) for i in set_I for j in set_J}
+    a = {(i,j): random.normalvariate(0,5) for i in set_I for j in set_J}
 
-    W = np.array([[-4046.], [-4046.], [-4046.], [-4046.], [-4046.], [ 4027.], [ 4027.], [ 4032.], [ 4036.], [ 4035.], [ 4031.], [ 4037.], [ 4033.], [ 4030.], [ 4028.]])
+    l = {(i,j): random.randint(0,10) for i in set_I for j in set_J}#para crear x_i_j
+    u = {(i,j): random.randint(10,20) for i in set_I for j in set_J}
 
-    W, G, h = matrix(W), matrix(G), matrix(h)
-    status,solution = glpk.ilp(W, G.T, h,B=set(range(len(W))))
+    b = {j: random.randint(0,30) for j in set_J}
 
-def Leer():
+    opt_model = plp.LpProblem(name="MIP Model")
+
+    # if x is Binary
+    x_vars  = {(i,j): plp.LpVariable(cat=plp.LpBinary, name="x_{0}_{1}".format(i,j)) 
+                for i in set_I for j in set_J}
+
+    # if x is Integer
+    #x_vars  = {(i,j):
+     #           plp.LpVariable(cat=plp.LpInteger, 
+      #          lowBound=l[i,j], upBound= u[i,j],
+       #         name="x_{0}_{1}".format(i,j)) 
+       #         for i in set_I for j in set_J
+       #         }
+
+    # == constraints
+    constraints = {j : 
+    plp.LpConstraint(
+                e=plp.lpSum(Lado_Izquierdo[i][j] * x_vars[i,j] for i in set_I),
+                sense=plp.LpConstraintEQ,
+                rhs=Lado_Derecho[j],
+                name="constraint_{0}".format(j))
+                for j in set_J}
+
+
+    objective = plp.lpSum(x_vars[i,j] * c[i,j] 
+                    for i in set_I 
+                    for j in set_J)
+    # for maximization
+    #opt_model.sense = plp.LpMaximize
+    # for minimization
+    opt_model.sense = plp.LpMinimize
+    opt_model.setObjective(objective)
+
+    # solving with CBC
+    opt_model.solve()
+    print(opt_model)
+
+    # solving with Glpk
+    #opt_model.solve(solver = GLPK_CMD())
+    opt_df = pd.DataFrame.from_dict(x_vars, orient="index", 
+                                columns = ["variable_object"])
+    opt_df.index = pd.MultiIndex.from_tuples(opt_df.index, 
+                                names=["column_i", "column_j"])
+    opt_df.reset_index(inplace=True)
+    # PuLP
+    opt_df["solution_value"] = opt_df["variable_object"].apply(lambda item: item.varValue)
+    opt_df.drop(columns=["variable_object"], inplace=True)
+    opt_df.to_csv("./optimization_solution.csv")
+    print(opt_df)
+
+def Leer(): 
 
     #DAMOS LECTURA A NUESTRO ARCHIVO GENERADO POR JAVA
     #PRUEBAS COn JAVA
@@ -54,11 +101,6 @@ def Leer():
     for line in f.readlines():
         data.append(line.replace('\n','').split(' '))
     f.close()
-
-    F = [] #Funcion objetivo
-    #Sujeto A tipo matriz
-    Lado_Izquierdo = []
-    Lado_Derecho = []
 
     #Resultado = linprog(F,Lado_Izquierdo,Lado_Derecho, bounds=(0,None))
 
@@ -71,7 +113,6 @@ def Leer():
         Pesos.append(i[j])
     NodosDominantes = data[0]
 
-    #print("Grafo: ",Grafo)
     #print("Pesos: ",Pesos)
     #print("Nodod dominantes: ",NodosDominantes)
 
@@ -92,7 +133,7 @@ def Leer():
 
             if Grafo[x][0] in Aux:
                 #print(Grafo[x][0], " esta en  ", Aux)
-                AuxLadoI.append(-1)
+                AuxLadoI.append(1)
             else:
                 #print(Grafo[x][0], " no esta en  ", Aux)
                 AuxLadoI.append(0)
@@ -100,27 +141,9 @@ def Leer():
 
     #print("Lado izquierdo: ", Lado_Izquierdo)
     for i in range(0,len(Grafo)-1):
-        Lado_Derecho.append(-1)
+        Lado_Derecho.append(1)
     #print("Lado Derecho: ", Lado_Derecho)
-    
-    Resultado = linprog(F,Lado_Izquierdo,Lado_Derecho, bounds=(0,None))
-    
-    #print("Valor = ", Resultado.fun, "Yi = ", Resultado.x)
-    suma = 0
-    for i in range(0,len(Grafo)):
-        if (Resultado.x[i] >= 0.4):
-           Resultado.x[i] = 1
-           suma = suma + float(Pesos[i])
-        else:
-            Resultado.x[i] = 0
-
-    if Resultado.fun == 0:
-        print("NO")
-    else:
-        #print("SI")
-        #print("Valor = ", Resultado.fun, "Yi = ", Resultado.x, " Total: ", suma)
-        print(Resultado.x,Resultado.fun)
-
 
 if __name__ == "__main__":
+    Leer()
     PE_Ejemplo()

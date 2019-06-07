@@ -46,6 +46,7 @@ public class Grafo {
 
                 /*CONDICIÓN DE PROBABILIDAD*/
                 if (i != j && RN.nextDouble() <= this.Probabilidad) {
+
                     /*SI NO EXISTE CONEXION ENTE I,J*/
                     if (!Grafo.get(i).contains(j) && !Grafo.get(j).contains(i)) {
 

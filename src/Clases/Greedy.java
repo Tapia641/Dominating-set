@@ -1,5 +1,5 @@
 /*AUTOR: HERNÁNDEZ TAPIA LUIS ENRIQUE ;D */
-
+//INVESTIGADO DE: http://math.mit.edu/~goemans/18434S06/setcover-tamara.pdf
 
 package Clases;
 
@@ -32,7 +32,6 @@ public class Greedy {
     }
 
     public void Iniciar() {
-        //INVESTIGADO DE: http://math.mit.edu/~goemans/18434S06/setcover-tamara.pdf
 
         /*CONJUNTO DOMINANTE DE PESO MÍNIMO*/
         HashSet<Integer> Original = new HashSet<>(), Solucion = new HashSet<>();
@@ -47,7 +46,7 @@ public class Greedy {
 
         while (Solucion.size() != Original.size()) {
 
-            double Minimo =10000;
+            double Minimo = 10000;
 
             /*INDICE PARA MANEJAR EN VEC DE VEC*/
             int P = 0;

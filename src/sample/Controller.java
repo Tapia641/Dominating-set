@@ -3,10 +3,7 @@
 
 package sample;
 
-import Clases.Draw;
-import Clases.Grafo;
-import Clases.Greedy;
-import Clases.ProgramacionLineal;
+import Clases.*;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialogLayout;
@@ -25,6 +22,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
+import javafx.util.Pair;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -35,7 +33,7 @@ import java.util.regex.Pattern;
 public class Controller {
 
     @FXML
-    private TableView<ObservableList<String>> MiTabla = new TableView<>();
+    private TableView<ObservableList<String>> MiTabla = new TableView<>(), TablaPesos = new TableView<>();
 
     @FXML
     private JFXTextField CadenaNumeroNodos;
@@ -60,6 +58,10 @@ public class Controller {
             /*LA LIMPIAMOS*/
             MiTabla.getColumns().clear();
             MiTabla.getItems().clear();
+
+
+            TablaPesos.getColumns().clear();
+            TablaPesos.getItems().clear();
 
             /*LE PASAMOS LOS PARAMETROS AL CONSTRUCTOR*/
             G = new Grafo(Integer.parseInt(CadenaNumeroNodos.getText()), Double.parseDouble(CadenaProbabilidad.getText()));
@@ -107,6 +109,39 @@ public class Controller {
 
             CargarDatos(Tabla, MiTabla);
 
+
+            /*PESOS*/
+
+            Vector<Pair<Integer, Double>>P = G.getPesos();
+            String[] aux2 = {"Nodo","Peso"};
+            TestDataGenerator dataGenerator2 = new TestDataGenerator();
+            TestDataGenerator.setLOREM(aux2);
+            List<String> columnNames2 = dataGenerator2.getNext(aux2.length);
+
+            for (int i = 0; i < columnNames2.size(); i++) {
+                final int finalIdx = i;
+                TableColumn<ObservableList<String>, String> column = new TableColumn<>(aux2[i]);
+                column.setMinWidth(100);
+                column.setSortable(false);
+                column.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().get(finalIdx))
+                );
+                TablaPesos.getColumns().add(column);
+            }
+
+            Vector<String> Tabla2 = new Vector<>();
+            String cad = "";
+
+            for (Pair<Integer, Double> J: P){
+                cad += J.getKey() +"\t" + J.getValue();
+                break;
+            }
+            Tabla2.add(cad);
+
+            for (Pair<Integer, Double> J: P){
+                Tabla2.add(J.getKey() +"\t" + J.getValue());
+            }
+
+            CargarDatos(Tabla2, TablaPesos);
 
         } else {
             showAlert("Error", "La cadena de texto está vacia", "", Alert.AlertType.ERROR);
@@ -191,6 +226,24 @@ public class Controller {
         }
     }
 
+    @FXML
+    private void onMouseclickedProgramacionEntera(MouseEvent event) {
+        if (G != null) {
+            ProgramacionEntera PL = new ProgramacionEntera();
+            PL.EjecutarPython();
+            String solucion = PL.getCadena();
+
+            if (solucion.equals("NO")) {
+                alertCreator("Solución en Programación Entera", "No se pudo obtener", "");
+            } else {
+                alertCreator("Solución en Programacion Entera:", solucion, solucion);
+            }
+
+
+        } else {
+            showAlert("Error", "Primero crea un grafo", "", Alert.AlertType.ERROR);
+        }
+    }
 
     public void showAlert(String titulo, String middle, String fin, Alert.AlertType tipo) {
         Alert alert = new Alert(tipo);
